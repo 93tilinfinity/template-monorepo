@@ -1,0 +1,26 @@
+{
+  "name": "template-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "@common/eslint-config": "workspace:*",
+    "@common/typescript-config": "workspace:*",
+    "prettier": "^3.2.5",
+    "turbo": "^2.4.4"
+  },
+  "packageManager": "pnpm@8.15.5",
+  "engines": {
+    "node": ">=18"
+  }
+}
