@@ -1,4 +1,4 @@
-# A onorepo boilerplate
+# 🚀 Startup boilerplate
 
 A monorepo boilerplate using Turborepo, designed to help you ship full-stack applications fast.
 
