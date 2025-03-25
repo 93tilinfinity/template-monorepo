@@ -1,6 +1,8 @@
-# A monorepo boilerplate
+# A onorepo boilerplate
 
-This monorepo includes the following packages/apps:
+A monorepo boilerplate using Turborepo, designed to help you ship full-stack applications fast.
+
+Includes a NestJS API, a Next.js frontend, and a suite of shared packages for scalable development.
 
 ### Apps and Packages
 
