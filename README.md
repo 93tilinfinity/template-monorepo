@@ -87,9 +87,61 @@ pnpm lint
 pnpm format
 ```
 
+### Useful tips
+
+#### pnpm collisions
+
+```bash
+# when running the Dockerfile
+ docker build -f apps/api/Dockerfile .
+
+# `pnpm install` does not progress
+ [build 4/6] RUN pnpm --filter=api... install --frozen-lockfile
+
+
+# Solution
+
+ # Ensure pnpm version matches Dockerfile
+ pnpm --version
+
+ # if it does not match, update the pnpm version in `package.json`, and run
+ pnpm install
+
+ # this should recreate the pnpm-lock.yaml file, then rerun the docker build command
+```
+
+#### making a small docker image
+
+```bash
+
+du -h -d 1 | sort -hr
+
+# du: This command estimates the disk space used by files and directories.
+# -h: This option formats the output in a human-readable format (e.g., KB, MB, GB).
+# -d 1: This option specifies the depth of the directory listing, in this case, only listing the immediate subdirectories (level 1).
+# |: This pipe symbol redirects the output of the du command to the next command.
+# sort: This command sorts the input, in this case, the output of the du command.
+# -hr: This option sorts numerically (the -r option sorts in reverse order, so largest to smallest).
+
+```
+
 ### Todo
 
-- Dockerise
-- Deployment (Azure/Vercel)
-- Sentry logging integration (toggle via .env)
-- PostgreSQL database with Drizzle ORM
+Dockerise
+
+- [x] fix pnpm issues / update pnpm / update node 23.10.0
+- [x] get Dockerfile to run
+- [ ] make docker container as small as possible (currently ~747MB)
+- [ ] dockerise frontend
+
+Deployment (Azure/Vercel)
+
+- [ ] API to azure container app
+- [ ] frontend to Vercel
+
+Other
+
+- [ ] Sentry logging integration (toggle via .env)
+- [ ] Update TS config
+- [ ] Auth/Security
+- [ ] PostgreSQL database with Drizzle ORM
