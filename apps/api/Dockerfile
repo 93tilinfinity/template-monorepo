@@ -1,4 +1,4 @@
-FROM node:23.10.0-alpine3.21 AS base
+FROM node:23.10.0-slim AS base
 
 # --- install pnpm / turbo ---
 FROM base AS builder
@@ -9,8 +9,6 @@ ENV PNPM_HOME=/app/.pnpm
 ENV PATH=$PNPM_HOME:$PATH
 ENV NODE_OPTIONS="--max_old_space_size=4096"
 
-# --- copy over pruned app code ---
-FROM builder AS src
 WORKDIR /usr/src
 
 COPY turbo.json package*.json pnpm*.yaml ./
@@ -20,30 +18,32 @@ COPY apps/ ./apps
 # reduces source code pre install/build
 RUN turbo prune api --docker
 
-# --- copy, install, build annd prune ---
+# --- copy, install, build and prune ---
 FROM builder AS build
 WORKDIR /usr/app
 
-COPY --from=src /usr/src/out/json/ .
-COPY --from=src /usr/src/out/full/ .
+COPY --from=builder /usr/src/out/json/ .
+COPY --from=builder /usr/src/out/full/ .
 
 RUN corepack install
 
 # full install incl. dev deps
-RUN pnpm --filter=api... install --frozen-lockfile 
+RUN pnpm --filter=api... install --frozen-lockfile
 
-RUN pnpm --filter=api... build
+RUN turbo run build --filter=api...
 
-# strip dev deps (like ts + prettier) post install/build
-RUN pnpm prune --prod              
+# would like to strip dev deps (like ts + prettier) post install/build.
+# `pnpm prune --prod` doesnt seem to work within monorepos so removing manually
+RUN rm -rf /usr/app/node_modules/.pnpm-store
+RUN rm -rf /usr/app/node_modules/.cache
+RUN rm -rf /usr/app/node_modules/.pnpm/@types* /usr/app/node_modules/.pnpm/eslint* /usr/app/node_modules/.pnpm/prettier*
 
 # --- runtime-only image ---
 FROM base AS final
 WORKDIR /app
 
-COPY --from=build /usr/app/apps/api/dist ./apps/api/dist
-COPY --from=build /usr/app/node_modules ./node_modules
-COPY --from=build /usr/app/package.json ./package.json
+# could shrink this by copying less files however pnpm symlink breaks when copying node_modules
+COPY --from=build /usr/app ./
 
 USER node
 EXPOSE 3000
