@@ -36,7 +36,8 @@ jobs:
           service_account: github-actions@template-455111.iam.gserviceaccount.com
 
       - run: |
-          cat '${{ steps.auth.outputs }}'
+          echo "Access Token: ${{ steps.auth.outputs.access_token }}"
+          echo "${{ steps.auth.outputs }}"
 
       - name: Registry Auth
         id: docker-auth
