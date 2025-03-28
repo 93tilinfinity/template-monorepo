@@ -27,6 +27,9 @@ jobs:
         with:
           ref: ${{ github.sha }}
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Google Auth
         id: auth
         uses: google-github-actions/auth@v2
@@ -45,9 +48,7 @@ jobs:
           registry: europe-west2-docker.pkg.dev
 
       - name: Build & Push
-        uses: docker/build-push-action@v5
-        env:
-          GAR_URL: europe-west2-docker.pkg.dev/template-455111/gcr-template
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: apps/api/Dockerfile
@@ -56,6 +57,4 @@ jobs:
             SHA=${{ inputs.github_ref }}
             VERSION=${{ inputs.app_version }}
           push: true
-          tags: ${{ env.GAR_URL }}:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          tags: europe-west2-docker.pkg.dev/template-455111/gcr-template:${{ github.sha }}
