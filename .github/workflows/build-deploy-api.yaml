@@ -32,7 +32,7 @@ jobs:
         uses: 'google-github-actions/auth@v2'
         with:
           project_id: 'template'
-          workload_identity_provider: 'projects/675933940278/locations/global/workloadIdentityPools/wip-github-actions/providers/github'
+          workload_identity_provider: 'projects/675933940278/locations/global/workloadIdentityPools/github-actions/providers/github'
 
       - name: Docker Auth
         id: docker-auth
