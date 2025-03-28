@@ -15,6 +15,9 @@ on:
         description: App version
         required: true
 
+env:
+  CONTAINER_REGISTRY_NAME: europe-west2-docker.pkg.dev
+
 jobs:
   build-push:
     permissions:
@@ -22,6 +25,7 @@ jobs:
       id-token: write
 
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,8 +39,8 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           token_format: 'access_token'
-          workload_identity_provider: projects/675933940278/locations/global/workloadIdentityPools/github-actions/providers/github
-          service_account: github-actions@template-455111.iam.gserviceaccount.com
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
           access_token_lifetime: 300s
 
       - name: Registry Auth
@@ -45,7 +49,7 @@ jobs:
         with:
           username: oauth2accesstoken
           password: '${{ steps.auth.outputs.access_token }}'
-          registry: europe-west2-docker.pkg.dev
+          registry: ${{ env.CONTAINER_REGISTRY_NAME }}
 
       - name: Build & Push
         uses: docker/build-push-action@v6
@@ -57,4 +61,4 @@ jobs:
             SHA=${{ inputs.github_ref }}
             VERSION=${{ inputs.app_version }}
           push: true
-          tags: europe-west2-docker.pkg.dev/template-455111/gcr-template/api:${{ github.sha }}
+          tags: ${{ env.CONTAINER_REGISTRY_NAME }}/template-455111/gcr-template/api:${{ github.sha }}
