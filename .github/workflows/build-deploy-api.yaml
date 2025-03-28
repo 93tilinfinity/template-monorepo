@@ -1,0 +1,52 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - ci-test/**
+    # paths:
+    #   - 'apps/api/**'
+    #   - 'packages/**'
+
+  workflow_dispatch:
+    inputs:
+      app_version:
+        description: 'App version'
+        required: true
+
+jobs:
+  build-push:
+    permissions:
+      contents: read
+      id-token: write
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Google Auth
+        id: auth
+        uses: 'google-github-actions/auth@v2'
+        with:
+          project_id: 'template'
+          workload_identity_provider: 'projects/675933940278/locations/global/workloadIdentityPools/wip-github-actions/providers/github'
+
+      - name: Docker Auth
+        id: docker-auth
+        uses: 'docker/login-action@v1'
+        with:
+          username: 'oauth2accesstoken'
+          password: '${{ steps.auth.outputs.access_token }}'
+          registry: 'europe-west2-docker.pkg.dev'
+
+      - name: Build & push image
+        env:
+          GAR_URL: 'europe-west2-docker.pkg.dev/template-455111/gcr-template'
+        run: |
+          IMAGE_TAG=${{ env.GAR_URL }}:${{ github.sha }}
+
+          docker build -t $IMAGE_TAG .
+          docker push $IMAGE_TAG
