@@ -35,9 +35,9 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           token_format: 'access_token'
-          project_id: template
           workload_identity_provider: projects/675933940278/locations/global/workloadIdentityPools/github-actions/providers/github
           service_account: github-actions@template-455111.iam.gserviceaccount.com
+          access_token_lifetime: 300s
 
       - name: Registry Auth
         id: docker-auth
@@ -57,4 +57,4 @@ jobs:
             SHA=${{ inputs.github_ref }}
             VERSION=${{ inputs.app_version }}
           push: true
-          tags: europe-west2-docker.pkg.dev/template-455111/gcr-template:${{ github.sha }}
+          tags: europe-west2-docker.pkg.dev/template-455111/gcr-template/api:${{ github.sha }}
