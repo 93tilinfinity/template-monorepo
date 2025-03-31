@@ -6,11 +6,19 @@ spec:
   template:
     metadata:
       annotations:
-        autoscaling.knative.dev/maxScale: '100'
+        autoscaling.knative.dev/maxScale: 5
     spec:
-      containerConcurrency: 80
+      containerConcurrency: 50
       containers:
         - image: ${IMAGE}
+          resources:
+            limits:
+              cpu: 1
+              memory: 256M
+          ports:
+            - containerPort: ${PORT}
+          timeoutSeconds: 60
+
   traffic:
     - percent: 100
       latestRevision: true
