@@ -139,7 +139,7 @@ API deployment
 - [x] docker container to Google Artifact Registry
 - [x] GAR -> google cloud run deploy (https://cloud.google.com/blog/products/devops-sre/deploy-to-cloud-run-with-github-actions/)
 - [ ] why does github actions upload 3 containers?
-- [ ] add startup probe (https://knative.dev/docs/serving/services/configure-probing/#configuring-custom-probes)\
+- [x] add startup probe (https://knative.dev/docs/serving/services/configure-probing/#configuring-custom-probes)\
 - [ ] ensure public traffic on deploy
 
 Frontend deployment
