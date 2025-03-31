@@ -64,11 +64,11 @@ jobs:
             SHA=${{ inputs.github_ref }}
             VERSION=${{ inputs.app_version }}
           push: true
-          tags: ${{ env.CONTAINER_REGISTRY_NAME }}/{{ env.GCP_PROJECT_ID }}/{{ env.ARTIFACT_REPO }}/{{ env.APP_NAME }}:${{ github.sha }}
+          tags: ${{ env.CONTAINER_REGISTRY_NAME }}/${{ env.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.APP_NAME }}:${{ github.sha }}
 
       - name: GCP Cloud Run Service
         run: |
-          export IMAGE="${{ env.CONTAINER_REGISTRY_NAME }}/{{ env.GCP_PROJECT_ID }}/{{ env.ARTIFACT_REPO }}/{{ env.APP_NAME }}:${{ github.sha }}"
+          export IMAGE="${{ env.CONTAINER_REGISTRY_NAME }}/${{ env.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.APP_NAME }}:${{ github.sha }}"
           export APP_NAME="${{ env.APP_NAME }}"
           export PROJECT_ID="${{ env.GCP_PROJECT_ID }}"
           export REVISION_TAG="${{ github.sha }}"
