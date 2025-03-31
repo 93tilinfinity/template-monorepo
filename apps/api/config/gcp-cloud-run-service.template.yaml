@@ -1,0 +1,29 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: ${APP_NAME}
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: '5'
+        autoscaling.knative.dev/target-utilization-percentage: '80'
+    spec:
+      containerConcurrency: 50
+      containers:
+        - image: ${IMAGE}
+          resources:
+            limits:
+              cpu: '1'
+              memory: 256M
+          ports:
+            - containerPort: ${PORT}
+          startupProbe:
+            httpGet:
+              port: ${PORT}
+              path: '/'
+      timeoutSeconds: 60
+
+  traffic:
+    - percent: 100
+      latestRevision: true
