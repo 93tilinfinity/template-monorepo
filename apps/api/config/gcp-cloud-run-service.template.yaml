@@ -13,11 +13,18 @@ spec:
         - image: ${IMAGE}
           resources:
             limits:
-              cpu: 1
-              memory: 256M
+              cpu: '1'
+              memory: '256M'
           ports:
             - containerPort: ${PORT}
           timeoutSeconds: 60
+          # startupProbe:
+          #   httpGet:
+          #     path: '/'
+          #   initialDelaySeconds: 0
+          #   timeoutSeconds: 1
+          #   failureThreshold: 3
+          #   periodSeconds: 10
 
   traffic:
     - percent: 100
