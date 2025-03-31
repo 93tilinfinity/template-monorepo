@@ -74,7 +74,7 @@ jobs:
           export REVISION_TAG="${{ github.sha }}"
           export CLOUD_RUN_SA="${{ secrets.GCP_SERVICE_ACCOUNT }}"
           export ENVIRONMENT="production"
-          envsubst < ./gcp/cloud-run-service.template.yaml > container-production.yaml
+          envsubst < ./apps/api/config/gcp-cloud-run-service.template.yaml > container-production.yaml
           cat container-production.yaml
 
       - name: Deploy to Cloud Run
