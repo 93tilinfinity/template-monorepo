@@ -18,6 +18,10 @@ spec:
               memory: 256M
           ports:
             - containerPort: ${PORT}
+          startupProbe:
+            httpGet:
+              port: ${PORT}
+              path: '/'
       timeoutSeconds: 60
 
   traffic:
