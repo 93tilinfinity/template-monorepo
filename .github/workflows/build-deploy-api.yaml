@@ -81,6 +81,6 @@ jobs:
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v1
         with:
-          name: ${{ env.APP_NAME }}
+          service: ${{ env.APP_NAME }}
           region: ${{ env.REGION }}
           metadata: container-production.yaml
