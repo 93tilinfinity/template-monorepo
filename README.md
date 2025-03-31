@@ -134,9 +134,15 @@ Dockerise
 - [ ] make docker container as small as possible (currently ~747MB)
 - [ ] dockerise frontend
 
-Deployment (Azure/Vercel)
+API deployment
 
-- [ ] API to azure container app
+- [x] docker container to Google Artifact Registry
+- [ ] GAR -> google cloud run deploy
+- [ ] why does github actions upload 3 containers?
+- [ ] add liveness probe
+
+Frontend deployment
+
 - [ ] frontend to Vercel
 
 Other

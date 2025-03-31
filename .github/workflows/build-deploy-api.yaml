@@ -17,15 +17,18 @@ on:
 
 env:
   CONTAINER_REGISTRY_NAME: europe-west2-docker.pkg.dev
+  GCP_PROJECT_ID: template-455111
+  ARTIFACT_REPO: gcr-template
+  APP_NAME: api
+  REGION: europe-west2
 
 jobs:
-  build-push:
+  build-tag-push:
     permissions:
       contents: read
       id-token: write
 
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
         with:
@@ -61,4 +64,25 @@ jobs:
             SHA=${{ inputs.github_ref }}
             VERSION=${{ inputs.app_version }}
           push: true
-          tags: ${{ env.CONTAINER_REGISTRY_NAME }}/template-455111/gcr-template/api:${{ github.sha }}
+          tags: ${{ env.CONTAINER_REGISTRY_NAME }}/{{ env.GCP_PROJECT_ID }}/{{ env.ARTIFACT_REPO }}/{{ env.APP_NAME }}:${{ github.sha }}
+
+  deploy:
+    steps:
+      - name: GCP Cloud Run Service
+        run: |
+          export IMAGE="${{ env.CONTAINER_REGISTRY_NAME }}/{{ env.GCP_PROJECT_ID }}/{{ env.ARTIFACT_REPO }}/{{ env.APP_NAME }}:${{ github.sha }}"
+          export APP_NAME="${{ env.APP_NAME }}"
+          export PROJECT_ID="${{ env.GCP_PROJECT_ID }}"
+          export REVISION_TAG="${{ github.sha }}"
+          export CLOUD_RUN_SA="${{ secrets.GCP_SERVICE_ACCOUNT }}"
+          export ENVIRONMENT="production"
+          envsubst < ./gcp/cloud-run-service-yaml > container-production.yaml
+          cat container-production.yaml
+
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v0
+        with:
+          service: ${{ env.APP_NAME }}
+          region: ${{ env.REGION }}
+          metadata: container-production.yaml
