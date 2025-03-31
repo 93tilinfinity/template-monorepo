@@ -7,24 +7,18 @@ spec:
     metadata:
       annotations:
         autoscaling.knative.dev/maxScale: '5'
+        autoscaling.knative.dev/target-utilization-percentage: '80'
     spec:
       containerConcurrency: 50
       containers:
         - image: ${IMAGE}
           resources:
             limits:
-              cpu: '1'
-              memory: '256M'
+              cpu: 1
+              memory: 256M
           ports:
             - containerPort: ${PORT}
-          timeoutSeconds: 60
-          # startupProbe:
-          #   httpGet:
-          #     path: '/'
-          #   initialDelaySeconds: 0
-          #   timeoutSeconds: 1
-          #   failureThreshold: 3
-          #   periodSeconds: 10
+      timeoutSeconds: 60
 
   traffic:
     - percent: 100
