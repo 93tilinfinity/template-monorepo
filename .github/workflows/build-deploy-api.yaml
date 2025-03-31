@@ -66,8 +66,6 @@ jobs:
           push: true
           tags: ${{ env.CONTAINER_REGISTRY_NAME }}/{{ env.GCP_PROJECT_ID }}/{{ env.ARTIFACT_REPO }}/{{ env.APP_NAME }}:${{ github.sha }}
 
-  deploy:
-    steps:
       - name: GCP Cloud Run Service
         run: |
           export IMAGE="${{ env.CONTAINER_REGISTRY_NAME }}/{{ env.GCP_PROJECT_ID }}/{{ env.ARTIFACT_REPO }}/{{ env.APP_NAME }}:${{ github.sha }}"
