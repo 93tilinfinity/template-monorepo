@@ -151,14 +151,14 @@ API deployment using Google Cloud Run (apparently good for cost efficiency) need
    2. grant `Artifact reader/writer`
    3. grant `Cloud Run Admin` (cloud run)
    4. grant `Service Account User` (cloud run)
-6. Enable Compute Engine API
+6. Enable `Compute Engine API`
 7. **Add `Workload Identity Provider` and `Service Account` email to GitHub repository secrets as `GCP_WORKLOAD_IDENTITY_PROVIDER` and `GCP_SERVICE_ACCOUNT` respectively.**
 
 The github workflow should now be able to setup the container app and deploy on merge with main.
 
-a### Todo
+### Todo
 
-CI/CD
+#### CI/CD
 
 API deployment (a single 'production' environment)
 
@@ -168,18 +168,19 @@ API deployment (a single 'production' environment)
 - [x] GAR -> google cloud run deploy
 - [x] add startup probe
 
-- Cleanup
-  - [ ] why does github actions upload 3 containers?
-  - [ ] ensure public traffic on deploy
-  - [ ] add a custom domain
-  - [ ] make docker container as small as possible (currently ~747MB)
-  - [ ] Add Vulnerability scanning on upload to Artifact store
+Cleanup
+
+- [ ] why does github actions upload 3 containers?
+- [ ] ensure public traffic on deploy
+- [ ] add a custom domain
+- [ ] make docker container as small as possible (currently ~747MB)
+- [ ] Add Vulnerability scanning on upload to Artifact store
 
 Frontend deployment
 
 - [ ] frontend to Vercel
 
-Other
+#### Other
 
 - [ ] Run linting/formatting as commit script
 - [ ] Update TS config
