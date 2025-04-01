@@ -5,9 +5,10 @@ on:
     branches:
       - main
       - ci-test/**
-    # paths:
-    #   - 'apps/api/**'
-    #   - 'packages/**'
+    paths:
+      - 'apps/api/**'
+      - 'apps/frontend/**'
+      - 'packages/**'
 
   workflow_dispatch:
     inputs:
@@ -15,15 +16,21 @@ on:
         description: App version
         required: true
 
+# Replace with your env vars
 env:
   CONTAINER_REGISTRY_NAME: europe-west2-docker.pkg.dev
   GCP_PROJECT_ID: template-455111
   ARTIFACT_REPO: gcr-template
   APP_NAME: api
   REGION: europe-west2
+  FRONTEND_PROJECT_ID: my-vercel-project
+  VERCEL_SCOPE: my-org
 
 jobs:
-  build-push-deploy:
+  deploy-api:
+    if: |
+      contains(github.event.head_commit.message, 'packages/') || 
+      contains(github.event.head_commit.message, 'apps/api/')
     permissions:
       contents: read
       id-token: write
@@ -84,3 +91,24 @@ jobs:
         with:
           region: ${{ env.REGION }}
           metadata: container-production.yaml
+
+  deploy-frontend:
+    if: |
+      contains(github.event.head_commit.message, 'packages/') || 
+      contains(github.event.head_commit.message, 'apps/frontend/')
+    needs: [build-push-deploy-api, skip-api-deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Deploy Frontend to Vercel
+        run: |
+          vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --scope ${{ env.VERCEL_SCOPE }}
+        env:
+          VERCEL_PROJECT_ID: ${{ env.FRONTEND_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ env.VERCEL_SCOPE }}
