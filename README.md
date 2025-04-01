@@ -135,6 +135,17 @@ du -h -d 1 | sort -hr
 - On merge to main, build and push Docker images with versioned tags (not 'latest') to the container registry.
 - Try to roll forward with quick fixes rather than rollbacks when issues arise.
 
+#### Pipeline
+
+1. Run all unit/integration tests
+2. Build + push + deploy API
+3. Build + deploy frontend to Vercel
+4. Run e2e tests
+
+Rollback on any failure.
+
+Ideally, we'd release both apps to a staging environment or a production environment without traffic first and once e2e tests pass we'd promote both apps to their public domains. However, for simplicity this is a single environment world and I accept the risk that a broken deployment might bring down the live app until rollback.
+
 #### Setup
 
 API deployment using Google Cloud Run (apparently good for cost efficiency) needs some setup steps in GCP. Working on reducing these steps as much as possible.
