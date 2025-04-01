@@ -9,6 +9,7 @@ on:
       - 'apps/api/**'
       - 'apps/frontend/**'
       - 'packages/**'
+      - '.github/workflows/**'
 
   workflow_dispatch:
     inputs:
