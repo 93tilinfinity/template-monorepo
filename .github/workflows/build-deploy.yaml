@@ -17,16 +17,6 @@ on:
         description: App version
         required: true
 
-# Replace with your env vars
-env:
-  CONTAINER_REGISTRY_NAME: europe-west2-docker.pkg.dev
-  GCP_PROJECT_ID: template-455111
-  ARTIFACT_REPO: gcr-template
-  APP_NAME: api
-  REGION: europe-west2
-  FRONTEND_PROJECT_ID: my-vercel-project
-  VERCEL_SCOPE: my-org
-
 jobs:
   deploy-api:
     if: |
@@ -35,7 +25,13 @@ jobs:
     permissions:
       contents: read
       id-token: write
-
+    # Replace with your api vars
+    env:
+      CONTAINER_REGISTRY_NAME: europe-west2-docker.pkg.dev
+      GCP_PROJECT_ID: template-455111
+      ARTIFACT_REPO: gcr-template
+      APP_NAME: api
+      REGION: europe-west2
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -94,22 +90,39 @@ jobs:
           metadata: container-production.yaml
 
   deploy-frontend:
-    if: |
-      contains(github.event.head_commit.message, 'packages/') || 
-      contains(github.event.head_commit.message, 'apps/frontend/')
+    # if: |
+    # contains(github.event.head_commit.message, 'packages/') ||
+    # contains(github.event.head_commit.message, 'apps/frontend/')
     needs: [build-push-deploy-api, skip-api-deploy]
     runs-on: ubuntu-latest
+    outputs:
+      VERCEL_DEPLOYMENT_ID: ${{ steps.get-vercel-deployment-id.outputs.VERCEL_DEPLOYMENT_ID }}
+    env:
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_FRONTEND_URL: template-monorepo-frontend.vercel.app # Replace with your prod domain
+
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
 
       - name: Install Vercel CLI
-        run: npm install -g vercel
+        run: npm install --global vercel@latest
 
-      - name: Deploy Frontend to Vercel
+      - name: Store current Vercel deploymentId
+        id: get-vercel-deployment-id
         run: |
-          vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --scope ${{ env.VERCEL_SCOPE }}
-        env:
-          VERCEL_PROJECT_ID: ${{ env.FRONTEND_PROJECT_ID }}
-          VERCEL_ORG_ID: ${{ env.VERCEL_SCOPE }}
+          echo "VERCEL_DEPLOYMENT_ID=$(curl --request GET --silent --url 'https://api.vercel.com/v6/aliases/${{ env.VERCEL_FRONTEND_URL }}' --header 'Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}' | jq -r '.deploymentId')" >> $GITHUB_OUTPUT
+
+      - name: Pull Vercel Environment
+        run: vercel pull --environment=production --yes --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        id: deploy-vercel
+        run: |
+          NEW_DEPLOY_ID=$(vercel deploy --prod --skip-domain --prebuilt --token=${{ secrets.VERCEL_TOKEN }}) 
+          vercel promote $NEW_DEPLOY_ID --token=${{ secrets.VERCEL_TOKEN }} --scope ${{ inputs.vercel_team_id }}
