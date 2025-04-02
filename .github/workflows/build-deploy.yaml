@@ -93,7 +93,7 @@ jobs:
     # if: |
     # contains(github.event.head_commit.message, 'packages/') ||
     # contains(github.event.head_commit.message, 'apps/frontend/')
-    needs: [deploy-api, skip-api-deploy]
+    needs: deploy-api
     runs-on: ubuntu-latest
     outputs:
       VERCEL_DEPLOYMENT_ID: ${{ steps.get-vercel-deployment-id.outputs.VERCEL_DEPLOYMENT_ID }}
