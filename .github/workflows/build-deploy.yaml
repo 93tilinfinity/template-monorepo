@@ -106,9 +106,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
-
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '22.14.0'
+          cache: pnpm
       - name: Install Vercel CLI
-        run: npm install --global vercel@latest
+        run: pnpm add --global vercel@latest
+      - name: Install Turbo
+        run: pnpm add --global turbo@2.4.4
 
       - name: Store current Vercel deploymentId
         id: get-vercel-deployment-id
