@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "${configDir}/dist/tsconfig.build.tsbuildinfo"
+  },
+  "include": ["${configDir}/src"],
+  "exclude": [
+    "${configDir}/test",
+    "${configDir}/tests",
+    "${configDir}/node_modules",
+    "${configDir}/dist",
+    "${configDir}/src/**/*.spec.ts",
+    "${configDir}/src/**/*.test.ts"
+  ]
+}

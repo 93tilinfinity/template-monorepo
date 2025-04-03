@@ -193,8 +193,10 @@ Frontend deployment
 
 #### Other
 
-- [ ] Run linting/formatting as commit script
-- [ ] Update TS config
+- [ ] replace eslint and prettier with Biome
+- [ ] Run Biome as a commit hook / in CI
+- [x] Update TS config
+- [ ] cleanup jest config
 - [ ] Sentry logging integration (toggle via .env)
 - [ ] Auth/Security
 - [ ] PostgreSQL database with Drizzle ORM
