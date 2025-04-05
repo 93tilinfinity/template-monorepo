@@ -5,9 +5,11 @@ on:
     branches:
       - main
       - ci-test/**
-    # paths:
-    #   - 'apps/api/**'
-    #   - 'packages/**'
+    paths:
+      - 'apps/api/**'
+      - 'apps/frontend/**'
+      - 'packages/**'
+      - '.github/workflows/**'
 
   workflow_dispatch:
     inputs:
@@ -15,19 +17,21 @@ on:
         description: App version
         required: true
 
-env:
-  CONTAINER_REGISTRY_NAME: europe-west2-docker.pkg.dev
-  GCP_PROJECT_ID: template-455111
-  ARTIFACT_REPO: gcr-template
-  APP_NAME: api
-  REGION: europe-west2
-
 jobs:
-  build-push-deploy:
+  deploy-api:
+    if: |
+      contains(github.event.head_commit.message, 'packages/') || 
+      contains(github.event.head_commit.message, 'apps/api/')
     permissions:
       contents: read
       id-token: write
-
+    # Replace with your api vars
+    env:
+      CONTAINER_REGISTRY_NAME: europe-west2-docker.pkg.dev
+      GCP_PROJECT_ID: template-455111
+      ARTIFACT_REPO: gcr-template
+      APP_NAME: api
+      REGION: europe-west2
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -84,3 +88,47 @@ jobs:
         with:
           region: ${{ env.REGION }}
           metadata: container-production.yaml
+
+  deploy-frontend:
+    # if: |
+    # contains(github.event.head_commit.message, 'packages/') ||
+    # contains(github.event.head_commit.message, 'apps/frontend/')
+    # needs: deploy-api
+    runs-on: ubuntu-latest
+    outputs:
+      VERCEL_DEPLOYMENT_ID: ${{ steps.get-vercel-deployment-id.outputs.VERCEL_DEPLOYMENT_ID }}
+    env:
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_FRONTEND_URL: template-monorepo-frontend.vercel.app
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '22.14.0'
+          cache: pnpm
+      - name: Install Vercel CLI
+        run: pnpm add --global vercel@latest
+      - name: Install Turbo
+        run: pnpm add --global turbo@2.4.4
+
+      - name: Store current Vercel deploymentId
+        id: get-vercel-deployment-id
+        run: |
+          echo "VERCEL_DEPLOYMENT_ID=$(curl --request GET --silent --url 'https://api.vercel.com/v6/aliases/${{ env.VERCEL_FRONTEND_URL }}' --header 'Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}' | jq -r '.deploymentId')" >> $GITHUB_OUTPUT
+
+      - name: Pull Vercel Environment
+        run: vercel pull --environment=production --yes --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        id: deploy-vercel
+        run: |
+          NEW_DEPLOY_ID=$(vercel deploy --prod --skip-domain --prebuilt --token=${{ secrets.VERCEL_TOKEN }}) 
+          vercel promote $NEW_DEPLOY_ID --token=${{ secrets.VERCEL_TOKEN }} --scope ${{ inputs.vercel_team_id }}

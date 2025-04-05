@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@common/frontend": "workspace:*",
+    "@common/api": "workspace:*",
     "next": "^14.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -21,7 +22,6 @@
     "@jest/globals": "^29.7.0",
     "@next/eslint-plugin-next": "^14.1.1",
     "@playwright/test": "^1.44.0",
-    "@common/api": "workspace:*",
     "@common/eslint-config": "workspace:*",
     "@common/jest-config": "workspace:*",
     "@common/typescript-config": "workspace:*",

@@ -96,9 +96,13 @@ importers:
       typescript:
         specifier: 5.5.4
         version: 5.5.4
+    publishDirectory: dist
 
   apps/frontend:
     dependencies:
+      '@common/api':
+        specifier: workspace:*
+        version: link:../../packages/api
       '@common/frontend':
         specifier: workspace:*
         version: link:../../packages/frontend
@@ -112,9 +116,6 @@ importers:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
     devDependencies:
-      '@common/api':
-        specifier: workspace:*
-        version: link:../../packages/api
       '@common/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
