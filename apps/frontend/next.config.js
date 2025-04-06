@@ -1,4 +1,4 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
-  transpilePackages: ['@common/frontend'],
+  transpilePackages: ['@common/frontend', '@common/api'],
 };
