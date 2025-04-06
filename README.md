@@ -11,11 +11,11 @@ Includes a NestJS API, a Next.js frontend, and a suite of shared packages for sc
     │   ├── api                         # NestJS app (https://nestjs.com).
     │   └── frontend                    # Next.js app (https://nextjs.org).
     └── packages
-        ├── @common/api                 # Shared `NestJS` resources.
-        ├── @common/eslint-config       # `eslint` configurations (includes `prettier`)
-        ├── @common/jest-config         # `jest` configurations
-        ├── @common/typescript-config   # `tsconfig.json`s used throughout the monorepo
-        └── @common/frontend            # Shareable stub React component library.
+        ├── api                         # Shared `NestJS` resources.
+        ├── eslint-config               # `eslint` configurations (includes `prettier`)
+        ├── jest-config                 # `jest` configurations
+        ├── typescript-config           # `tsconfig.json`s used throughout the monorepo
+        └── frontend                    # Shareable stub React component library.
 
 ### Features
 

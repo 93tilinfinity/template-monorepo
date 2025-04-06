@@ -27,10 +27,7 @@
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "paths": {
-      "@common/*": ["../../packages/*"]
-    }
+    "noUnusedParameters": true
   },
   "exclude": ["node_modules"]
 }

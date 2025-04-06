@@ -1,6 +1,11 @@
 {
   "extends": "@common/typescript-config/nextjs.json",
-  "compilerOptions": {},
+  "compilerOptions": {
+    "baseUrl": "../..",
+    "paths": {
+      "@common/*": ["packages/*"]
+    }
+  },
   "include": [
     "next-env.d.ts",
     "next.config.js",

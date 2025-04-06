@@ -12,7 +12,7 @@
     "jsx": "preserve",
     "noEmit": true,
     "plugins": [{ "name": "next" }],
-    "noPropertyAccessFromIndexSignature": false,
+    "noPropertyAccessFromIndexSignature": false
   },
   "include": ["**/*.ts", "**/*.tsx", ".next/types/**/*.ts"]
 }
