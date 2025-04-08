@@ -15,6 +15,6 @@
     "isolatedModules": true,
     "jsx": "react-jsx"
   },
-  "include": ["${configDir}/src", "${configDir}/test", "${configDir}/tests"],
+  "include": ["${configDir}/src", "${configDir}/tests"],
   "exclude": ["${configDir}/node_modules", "${configDir}/dist"]
 }

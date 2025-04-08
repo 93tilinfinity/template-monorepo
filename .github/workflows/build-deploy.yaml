@@ -49,7 +49,7 @@ jobs:
         run: biome ci .
 
   deploy-api:
-    needs: changes
+    needs: [changes, format-and-lint]
     if: ${{ needs.changes.outputs.api == 'true' }}
     permissions:
       contents: read
