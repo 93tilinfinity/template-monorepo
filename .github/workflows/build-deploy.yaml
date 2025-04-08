@@ -131,4 +131,4 @@ jobs:
         id: deploy-vercel
         run: |
           NEW_DEPLOY_ID=$(vercel deploy --prod --skip-domain --prebuilt --token=${{ secrets.VERCEL_TOKEN }}) 
-          vercel promote $NEW_DEPLOY_ID --token=${{ secrets.VERCEL_TOKEN }}
+          vercel promote $NEW_DEPLOY_ID --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ env.VERCEL_ORG_ID }}
