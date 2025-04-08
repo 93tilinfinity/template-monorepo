@@ -12,7 +12,6 @@ Includes a NestJS API, a Next.js frontend, and a suite of shared packages for sc
     │   └── frontend                    # Next.js app (https://nextjs.org).
     └── packages
         ├── api                         # Shared `NestJS` resources.
-        ├── eslint-config               # `eslint` configurations (includes `prettier`)
         ├── jest-config                 # `jest` configurations
         ├── typescript-config           # `tsconfig.json`s used throughout the monorepo
         └── frontend                    # Shareable stub React component library.
@@ -23,8 +22,7 @@ Includes a NestJS API, a Next.js frontend, and a suite of shared packages for sc
 
 - Monorepo using Turborepo
 - Testing with [Jest](https://jestjs.io/) & [Playwright](https://playwright.dev/)
-- Code linting with [ESLint](https://eslint.org/)
-- Code formatting with [Prettier](https://prettier.io)
+- Code linting/formatting with [Biome](https://biomejs.dev/)
 - Sentry logging integration (toggle via .env)
 
 #### API
@@ -194,7 +192,7 @@ Cleanup
 #### Other
 
 - [x] Update TS config
-- [ ] replace eslint and prettier with Biome
+- [x] replace eslint and prettier with Biome
 - [ ] run Biome as a commit hook / in CI
 - [ ] API documentation via OpenAPI and Swagger
 - [ ] get tests working/cleanup jest config
