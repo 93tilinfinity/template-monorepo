@@ -14,7 +14,7 @@ on:
 
 jobs:
   changes:
-    name: detect what files changed
+    name: detect file changes
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
@@ -22,6 +22,7 @@ jobs:
       api: ${{ steps.filter.outputs.api }}
       frontend: ${{ steps.filter.outputs.frontend }}
     steps:
+      - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
         id: filter
         with:
