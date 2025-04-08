@@ -106,7 +106,7 @@ jobs:
           metadata: container-production.yaml
 
   deploy-frontend:
-    needs: changes
+    needs: deploy-api
     if: ${{ needs.changes.outputs.frontend == 'true' }}
     runs-on: ubuntu-latest
     outputs:
