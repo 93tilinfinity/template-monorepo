@@ -1,0 +1,148 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - ci-test/**
+
+  workflow_dispatch:
+    inputs:
+      app_version:
+        description: App version
+        required: true
+
+jobs:
+  changes:
+    name: detect file changes
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      api: ${{ steps.filter.outputs.api }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            api:
+              - 'apps/api/**'
+              - 'packages/**'
+              - '.github/workflows/**'
+            frontend:
+              - 'apps/frontend/**'
+              - 'packages/**'
+              - '.github/workflows/**'
+
+  deploy-api:
+    needs: changes
+    if: ${{ needs.changes.outputs.api == 'true' }}
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      CONTAINER_REGISTRY_NAME: europe-west2-docker.pkg.dev
+      GCP_PROJECT_ID: template-455111
+      ARTIFACT_REPO: gcr-template
+      APP_NAME: api
+      REGION: europe-west2
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Auth gcp
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+          access_token_lifetime: 300s
+
+      - name: Auth container registry
+        id: docker-auth
+        uses: docker/login-action@v3
+        with:
+          username: oauth2accesstoken
+          password: '${{ steps.auth.outputs.access_token }}'
+          registry: ${{ env.CONTAINER_REGISTRY_NAME }}
+
+      - name: Build + push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: apps/api/Dockerfile
+          target: final
+          build-args: |
+            SHA=${{ inputs.github_ref }}
+            VERSION=${{ inputs.app_version }}
+          push: true
+          tags: ${{ env.CONTAINER_REGISTRY_NAME }}/${{ env.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.APP_NAME }}:${{ github.sha }}
+
+      - name: Setup app config
+        run: |
+          export IMAGE="${{ env.CONTAINER_REGISTRY_NAME }}/${{ env.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.APP_NAME }}:${{ github.sha }}"
+          export APP_NAME="${{ env.APP_NAME }}"
+          export PROJECT_ID="${{ env.GCP_PROJECT_ID }}"
+          export REVISION_TAG="${{ github.sha }}"
+          export CLOUD_RUN_SA="${{ secrets.GCP_SERVICE_ACCOUNT }}"
+          export ENVIRONMENT="production"
+          export PORT=3000
+          envsubst < ./apps/api/config/gcp-cloud-run-service.template.yaml > container-production.yaml
+          cat container-production.yaml
+
+      - name: Deploy container app
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v1
+        with:
+          region: ${{ env.REGION }}
+          metadata: container-production.yaml
+
+  deploy-frontend:
+    needs: deploy-api
+    if: ${{ needs.changes.outputs.frontend == 'true' }}
+    runs-on: ubuntu-latest
+    outputs:
+      VERCEL_DEPLOYMENT_ID: ${{ steps.get-vercel-deployment-id.outputs.VERCEL_DEPLOYMENT_ID }}
+    env:
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_FRONTEND_URL: template-monorepo-frontend.vercel.app
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '22.14.0'
+          cache: pnpm
+      - name: Install Vercel CLI
+        run: pnpm add --global vercel@latest
+      - name: Install Turbo
+        run: pnpm add --global turbo@2.4.4
+
+      - name: Store current Vercel deploymentId
+        id: get-vercel-deployment-id
+        run: |
+          echo "VERCEL_DEPLOYMENT_ID=$(curl --request GET --silent --url 'https://api.vercel.com/v6/aliases/${{ env.VERCEL_FRONTEND_URL }}' --header 'Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}' | jq -r '.deploymentId')" >> $GITHUB_OUTPUT
+
+      - name: Pull Vercel Environment
+        run: vercel pull --environment=production --yes --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        id: deploy-vercel
+        run: |
+          NEW_DEPLOY_ID=$(vercel deploy --prod --skip-domain --prebuilt --token=${{ secrets.VERCEL_TOKEN }}) 
+          vercel promote $NEW_DEPLOY_ID --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ env.VERCEL_ORG_ID }}

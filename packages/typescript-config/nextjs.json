@@ -2,11 +2,17 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./base.json",
   "compilerOptions": {
-    "plugins": [{ "name": "next" }],
+    "declaration": false,
+    "declarationMap": false,
+    "incremental": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
     "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "allowJs": true,
+    "sourceMap": true,
+    "target": "ES2015",
     "jsx": "preserve",
-    "noEmit": true
-  }
+    "noEmit": true,
+    "plugins": [{ "name": "next" }],
+    "noPropertyAccessFromIndexSignature": false
+  },
+  "include": ["**/*.ts", "**/*.tsx", ".next/types/**/*.ts"]
 }
