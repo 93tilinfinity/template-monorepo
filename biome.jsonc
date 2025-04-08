@@ -6,15 +6,9 @@
     "useIgnoreFile": true,
     "defaultBranch": "main"
   },
-  "files": { "ignoreUnknown": false, "ignore": [
-    "build",
-    "node_modules",
-    "coverage",
-    "dist",
-    ".vscode",
-    "bin",
-    ".next"
-  ]
+  "files": {
+    "ignoreUnknown": false,
+    "ignore": ["build", "node_modules", "coverage", "dist", ".vscode", "bin", ".next"]
   },
   "organizeImports": { "enabled": true },
   "formatter": {
@@ -45,7 +39,7 @@
         "noUndeclaredVariables": "error",
         "noUnusedImports": "error",
         "noUnusedVariables": "error",
-        "useArrayLiterals": "error",
+        "useArrayLiterals": "error"
       },
       "security": {
         "noGlobalEval": "error"
@@ -79,6 +73,27 @@
       "quoteStyle": "double",
       "attributePosition": "auto",
       "bracketSpacing": true
+    },
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    },
+    "globals": [
+      "jest",
+      "describe",
+      "it",
+      "expect",
+      "beforeAll",
+      "beforeEach",
+      "afterAll",
+      "afterEach"
+    ]
+  },
+  "overrides": [
+    {
+      "include": ["apps/frontend", "packages/frontend"],
+      "javascript": {
+        "globals": ["React", "JSX"]
+      }
     }
-  }
+  ]
 }
