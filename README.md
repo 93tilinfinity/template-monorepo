@@ -11,7 +11,7 @@ Includes a NestJS API, a Next.js frontend, and a suite of shared packages for sc
     │   ├── api                         # NestJS app (https://nestjs.com).
     │   └── frontend                    # Next.js app (https://nextjs.org).
     └── packages
-        ├── api                         # Shared `NestJS` resources.
+        ├── api                         # Shared backend resources
         ├── jest-config                 # `jest` configurations
         ├── typescript-config           # `tsconfig.json`s used throughout the monorepo
         └── frontend                    # Shareable stub React component library.
@@ -29,8 +29,8 @@ Includes a NestJS API, a Next.js frontend, and a suite of shared packages for sc
 
 - Built with NestJS
 - Deployed with Docker, GitHub Actions, and Azure Container Apps
-- PostgreSQL database with Drizzle ORM
-- API documentation via OpenAPI and Swagger
+- PostgreSQL database with Drizzle ORM (coming soon)
+- API documentation via OpenAPI and Swagger (coming soon)
 
 ### Useful Commands
 
@@ -69,20 +69,17 @@ pnpm test:e2e
 # See `@common/jest-config` to customize the behavior.
 ```
 
-#### Lint
+#### Lint & Format
 
 ```bash
-# Will lint all the app & packages with the supported `lint` script.
-# See `@common/eslint-config` to customize the behavior.
-pnpm lint
+# Will lint and format all the app & packages.
+# See `biome.jsonc` to customise the behavior.
+turbo format-lint
 ```
 
-#### Format
-
 ```bash
-# Will format all the supported `.ts,.js,json,.tsx,.jsx` files.
-# See `@common/eslint-config/prettier-base.js` to customize the behavior.
-pnpm format
+# auto apply fixes
+turbo format-lint:fix
 ```
 
 ### Useful tips
@@ -193,12 +190,12 @@ Cleanup
 
 - [x] Update TS config
 - [x] replace eslint and prettier with Biome
-- [ ] run Biome as a commit hook / in CI
-- [ ] API documentation via OpenAPI and Swagger
+- [x] run Biome in CI
+- [ ] setup a common sentry logger (toggle via .env)
+- [ ] connect frontend with api + auth
 - [ ] get tests working/cleanup jest config
-- [ ] setup sentry logging (toggle via .env)
-- [ ] add api auth
-- [ ] PostgreSQL database with Drizzle ORM
+- [ ] add a database (PostgreSQL with Drizzle ORM)
+- [ ] auto API documentation via OpenAPI and Swagger
 
 ### Useful Links
 
