@@ -1,3 +1,3 @@
-import config from '@common/jest-config/next';
+import config from "@common/jest-config/next"
 
-export default config;
+export default config
