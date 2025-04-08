@@ -179,28 +179,28 @@ API deployment (a single 'production' environment)
 - [x] GAR -> google cloud run deploy
 - [x] add startup probe
 
+Frontend deployment
+
+- [x] frontend to Vercel
+
 Cleanup
 
 - [ ] why does github actions upload 3 containers?
 - [ ] ensure public traffic on deploy
 - [ ] add a custom domain
-- [ ] make docker container as small as possible (currently ~747MB)
+- [ ] make api docker container as small as possible (currently ~747MB)
 - [ ] Add Vulnerability scanning on upload to Artifact store
-
-Frontend deployment
-
-- [ ] frontend to Vercel
 
 #### Other
 
-- [ ] replace eslint and prettier with Biome
-- [ ] Run Biome as a commit hook / in CI
 - [x] Update TS config
-- [ ] cleanup jest config
-- [ ] Sentry logging integration (toggle via .env)
-- [ ] Auth/Security
-- [ ] PostgreSQL database with Drizzle ORM
+- [ ] replace eslint and prettier with Biome
+- [ ] run Biome as a commit hook / in CI
 - [ ] API documentation via OpenAPI and Swagger
+- [ ] get tests working/cleanup jest config
+- [ ] setup sentry logging (toggle via .env)
+- [ ] add api auth
+- [ ] PostgreSQL database with Drizzle ORM
 
 ### Useful Links
 
