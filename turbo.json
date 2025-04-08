@@ -23,7 +23,10 @@
     "clean": {
       "dependsOn": ["^clean"]
     },
-    "lint": {},
+    "//#format-lint": {},
+    "//#format-lint:fix": {
+      "cache": false
+    },
     "test": {},
     "test:e2e": {}
   },

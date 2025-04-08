@@ -6,7 +6,6 @@
     "dev": "next dev --port 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --max-warnings 0",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:e2e": "playwright test"
@@ -20,9 +19,7 @@
   "devDependencies": {
     "@common/api": "workspace:*",
     "@jest/globals": "^29.7.0",
-    "@next/eslint-plugin-next": "^14.1.1",
     "@playwright/test": "^1.44.0",
-    "@common/eslint-config": "workspace:*",
     "@common/jest-config": "workspace:*",
     "@common/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "^6.4.5",

@@ -5,8 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "pnpm build --watch",
-    "build": "tsc -b -v",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\""
+    "build": "tsc -b -v"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -37,7 +36,6 @@
     "@nestjs/mapped-types": "*"
   },
   "devDependencies": {
-    "@common/eslint-config": "workspace:*",
     "@common/typescript-config": "workspace:*",
     "@types/node": "^20.3.1",
     "ts-loader": "^9.4.3",

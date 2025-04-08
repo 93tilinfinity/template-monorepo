@@ -12,7 +12,6 @@ Includes a NestJS API, a Next.js frontend, and a suite of shared packages for sc
     │   └── frontend                    # Next.js app (https://nextjs.org).
     └── packages
         ├── api                         # Shared `NestJS` resources.
-        ├── eslint-config               # `eslint` configurations (includes `prettier`)
         ├── jest-config                 # `jest` configurations
         ├── typescript-config           # `tsconfig.json`s used throughout the monorepo
         └── frontend                    # Shareable stub React component library.
@@ -23,8 +22,7 @@ Includes a NestJS API, a Next.js frontend, and a suite of shared packages for sc
 
 - Monorepo using Turborepo
 - Testing with [Jest](https://jestjs.io/) & [Playwright](https://playwright.dev/)
-- Code linting with [ESLint](https://eslint.org/)
-- Code formatting with [Prettier](https://prettier.io)
+- Code linting/formatting with [Biome](https://biomejs.dev/)
 - Sentry logging integration (toggle via .env)
 
 #### API
@@ -179,28 +177,28 @@ API deployment (a single 'production' environment)
 - [x] GAR -> google cloud run deploy
 - [x] add startup probe
 
+Frontend deployment
+
+- [x] frontend to Vercel
+
 Cleanup
 
 - [ ] why does github actions upload 3 containers?
 - [ ] ensure public traffic on deploy
 - [ ] add a custom domain
-- [ ] make docker container as small as possible (currently ~747MB)
+- [ ] make api docker container as small as possible (currently ~747MB)
 - [ ] Add Vulnerability scanning on upload to Artifact store
-
-Frontend deployment
-
-- [ ] frontend to Vercel
 
 #### Other
 
-- [ ] replace eslint and prettier with Biome
-- [ ] Run Biome as a commit hook / in CI
 - [x] Update TS config
-- [ ] cleanup jest config
-- [ ] Sentry logging integration (toggle via .env)
-- [ ] Auth/Security
-- [ ] PostgreSQL database with Drizzle ORM
+- [x] replace eslint and prettier with Biome
+- [ ] run Biome as a commit hook / in CI
 - [ ] API documentation via OpenAPI and Swagger
+- [ ] get tests working/cleanup jest config
+- [ ] setup sentry logging (toggle via .env)
+- [ ] add api auth
+- [ ] PostgreSQL database with Drizzle ORM
 
 ### Useful Links
 

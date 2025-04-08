@@ -32,11 +32,10 @@ RUN pnpm --filter=api... install --frozen-lockfile
 
 RUN turbo run build --filter=api...
 
-# would like to strip dev deps (like ts + prettier) post install/build.
 # `pnpm prune --prod` doesnt seem to work within monorepos so removing manually
 RUN rm -rf /usr/app/node_modules/.pnpm-store
 RUN rm -rf /usr/app/node_modules/.cache
-RUN rm -rf /usr/app/node_modules/.pnpm/@types* /usr/app/node_modules/.pnpm/eslint* /usr/app/node_modules/.pnpm/prettier*
+RUN rm -rf /usr/app/node_modules/.pnpm/@types* /usr/app/node_modules/.pnpm/biome*
 
 # --- runtime-only image ---
 FROM base AS final

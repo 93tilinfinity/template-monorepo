@@ -10,11 +10,13 @@
     "build": "turbo build",
     "test": "turbo test",
     "test:e2e": "turbo test:e2e",
+    "format-lint": "biome check .",
+    "format-lint:fix": "biome check . --write",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@common/eslint-config": "workspace:*",
+    "@biomejs/biome": "1.9.4",
     "@common/typescript-config": "workspace:*",
     "prettier": "^3.2.5",
     "turbo": "^2.4.4"
