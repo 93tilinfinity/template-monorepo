@@ -25,7 +25,6 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    # Replace with your api vars
     env:
       CONTAINER_REGISTRY_NAME: europe-west2-docker.pkg.dev
       GCP_PROJECT_ID: template-455111
@@ -90,10 +89,10 @@ jobs:
           metadata: container-production.yaml
 
   deploy-frontend:
-    # if: |
-    # contains(github.event.head_commit.message, 'packages/') ||
-    # contains(github.event.head_commit.message, 'apps/frontend/')
-    # needs: deploy-api
+    needs: deploy-api
+    if: |
+      contains(github.event.head_commit.message, 'packages/') ||
+      contains(github.event.head_commit.message, 'apps/frontend/')
     runs-on: ubuntu-latest
     outputs:
       VERCEL_DEPLOYMENT_ID: ${{ steps.get-vercel-deployment-id.outputs.VERCEL_DEPLOYMENT_ID }}
