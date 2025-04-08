@@ -36,6 +36,18 @@ jobs:
               - 'packages/**'
               - '.github/workflows/**'
 
+  format-and-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+      - name: Run Biome
+        run: biome ci .
+
   deploy-api:
     needs: changes
     if: ${{ needs.changes.outputs.api == 'true' }}
@@ -61,7 +73,7 @@ jobs:
         id: auth
         uses: google-github-actions/auth@v2
         with:
-          token_format: 'access_token'
+          token_format: "access_token"
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
           access_token_lifetime: 300s
@@ -71,7 +83,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           username: oauth2accesstoken
-          password: '${{ steps.auth.outputs.access_token }}'
+          password: "${{ steps.auth.outputs.access_token }}"
           registry: ${{ env.CONTAINER_REGISTRY_NAME }}
 
       - name: Build + push image
@@ -123,7 +135,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v3
         with:
-          node-version: '22.14.0'
+          node-version: "22.14.0"
           cache: pnpm
       - name: Install Vercel CLI
         run: pnpm add --global vercel@latest
