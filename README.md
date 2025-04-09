@@ -18,54 +18,54 @@ A NestJS API, a Next.js frontend, and a suite of shared packages in a Turborepo 
 
 #### Development Tooling
 
-✅ Linting/formatting config with [Biome](https://biomejs.dev/)
-✅ Monorepo workspace configurations using pnpm/Turborepo
+- ✅ Linting/formatting config with [Biome](https://biomejs.dev/)
+- ✅ Monorepo workspace configurations using pnpm/Turborepo
 
 #### Shared Packages
 
-✅ Common utility libraries (ts config, ui, test config, logger)
-✅ Shared type definitions
+- ✅ Common utility libraries (ts config, ui, test config, logger)
+- ✅ Shared type definitions
 
 #### App Deployment
 
-✅ CICD pipeline
-✅ API deployment with Docker, GitHub Actions, and Azure Container Apps
-✅ frontend deployment with Vercel
-❌ Environment management templates
-
-#### Observability
-
-❌ Logging infrastructure using Pino and Sentry
-
-#### Security
-
-❌ Secret management strategy
-❌ Dependency vulnerability scanning
-
-#### Data Management
-
-❌ PostgreSQL database with Drizzle ORM
-❌ Seed data for development
-❌ Database migration scripts
+- ✅ CICD pipeline
+- ✅ API deployment with Docker, GitHub Actions, and Azure Container Apps
+- ✅ frontend deployment with Vercel
+- ❌ Environment management templates
 
 #### Quality Assurance
 
-✅ End-to-end testing framework with [Jest](https://jestjs.io/) & [Playwright](https://playwright.dev/)
-❌ Performance testing suite
+- ✅ End-to-end testing framework with [Jest](https://jestjs.io/) & [Playwright](https://playwright.dev/)
+- ❌ Performance testing suite
+
+#### Observability
+
+- ❌ Logging infrastructure using Pino and Sentry
+
+#### Security
+
+- ❌ Secret management strategy
+- ❌ Dependency vulnerability scanning
+
+#### Data Management
+
+- ❌ PostgreSQL database with Drizzle ORM
+- ❌ Seed data for development
+- ❌ Database migration scripts
 
 #### Developer Experience
 
-✅ Local development IDE config
+- ✅ Local development IDE config
 
 #### Release Management
 
-❌ Version control strategy
-❌ Feature flag infrastructure
+- ❌ Version control strategy
+- ❌ Feature flag infrastructure
 
 #### Documentation
 
-❌ Architecture diagrams
-❌ OpenAPI Spec
+- ❌ Architecture diagrams
+- ❌ OpenAPI Spec
 
 ## Useful Commands
 
