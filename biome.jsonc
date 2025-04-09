@@ -53,7 +53,8 @@
         "useCollapsedElseIf": "error",
         "useConsistentBuiltinInstantiation": "error",
         "useDefaultSwitchClause": "error",
-        "useShorthandAssign": "error"
+        "useShorthandAssign": "error",
+        "useImportType": "off" // biome confuses NestJS's service injection with types
       },
       "suspicious": {
         "noDoubleEquals": "error",
