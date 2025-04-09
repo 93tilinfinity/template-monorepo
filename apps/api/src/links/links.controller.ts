@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common"
-import type { LinksService } from "./links.service"
+import { LinksService } from "./links.service"
 
 import type { CreateLinkDto } from "@common/api/links/dto/create-link.dto"
 import type { UpdateLinkDto } from "@common/api/links/dto/update-link.dto"
