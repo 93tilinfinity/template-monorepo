@@ -31,7 +31,7 @@ A NestJS API, a Next.js frontend, and a suite of shared packages in a Turborepo 
 - ✅ CICD pipeline
 - ✅ API deployment with Docker, GitHub Actions, and Azure Container Apps
 - ✅ frontend deployment with Vercel
-- ❌ Environment management templates
+- Environment management templates (✅ backend, ❌ frontend)
 
 #### Quality Assurance
 
@@ -40,7 +40,7 @@ A NestJS API, a Next.js frontend, and a suite of shared packages in a Turborepo 
 
 #### Observability
 
-- ❌ Logging infrastructure using Pino and Sentry
+- Logger using Pino and Sentry (✅ backend, ❌ frontend)
 
 #### Security
 
@@ -181,6 +181,9 @@ The github workflow should now be able to setup the container app and deploy on 
 - Should be environment-aware
 - Should port easily to third party tools like Sentry
 - Should be testable/mocked in unit tests
+
+See individual app READMEs for information on implementation.
+
 
 ## Todo
 
