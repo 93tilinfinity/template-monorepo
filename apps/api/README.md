@@ -12,9 +12,18 @@ By default, your server will run at [http://localhost:3000](http://localhost:300
 
 You can start editing the demo **APIs** by modifying [linksService](./src/links/links.service.ts) provider.
 
-### ⚠️ Note about build
+### Logger
 
-If you plan to only build this app. Please make sure you've built the packages first.
+ Key things the logger should achieve:
+
+- be idiomatic NestJS logger
+- log in structured format (pino)
+- log every request/response automatically (pino-http)
+- automatically bind request data to the logs from any service on any application layer without passing request context (AsyncLocalStorage)
+- easy transporting to third parties, namely Sentry
+
+Pino (and pino-http) does this pretty well so far.
+
 
 ## Learn More
 
