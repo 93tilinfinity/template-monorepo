@@ -199,6 +199,12 @@ See individual app READMEs for information on implementation.
 
 - [x] frontend to Vercel
 
+#### Logging
+
+- [x] add pino logger w/ pinoHttp and pino pretty
+- [ ] unhandled exceptions / app errors to Sentry
+- [ ] logger.error to Sentry
+
 #### Other
 
 - [x] Update TS config

@@ -2,26 +2,47 @@ import { Module } from "@nestjs/common"
 import { ConfigModule } from "@nestjs/config"
 import { LinksModule } from "./links/links.module"
 import { LoggerModule } from "nestjs-pino"
+import { SentryGlobalFilter, SentryModule } from "@sentry/nestjs/setup"
 
 import { AppController } from "./app.controller"
 import { AppService } from "./app.service"
+import { APP_FILTER } from "@nestjs/core"
+
+import path from "node:path"
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    SentryModule.forRoot(),
     LoggerModule.forRoot({
       pinoHttp: {
-        name: "api",
-        level: process.env["NODE_ENV"] !== "production" ? "debug" : "info",
-        transport: process.env["NODE_ENV"] !== "production" ? { target: "pino-pretty" } : undefined,
+        name: "template-api",
         autoLogging: false,
-        // redact: # https://github.com/pinojs/pino-http?tab=readme-ov-file#pinohttpopts-stream
-        // hooks: {} # Hook functions must be synchronous functions
+        transport: {
+          targets: [
+            {
+              target: "pino-pretty",
+              options: { colorize: true },
+              level: "debug",
+            },
+            {
+              target: path.resolve(__dirname, "logger/sentry-transport"),
+              level: "error",
+            },
+          ],
+        },
       },
     }),
+    ConfigModule.forRoot({ isGlobal: true }),
     LinksModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    // report any unhandled errors that aren't caught by other error filters to Sentry.
+    {
+      provide: APP_FILTER,
+      useClass: SentryGlobalFilter,
+    },
+    AppService,
+  ],
 })
 export class AppModule {}
