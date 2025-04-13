@@ -5,7 +5,7 @@ export class AppService {
   private readonly logger = new Logger(AppService.name)
 
   getHello(): string {
-    this.logger.log("Hello, logger is working!")
+    this.logger.error("a string error thrown")
     return "Hello World!"
   }
 }

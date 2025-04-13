@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common"
 import { ConfigModule } from "@nestjs/config"
 import { LinksModule } from "./links/links.module"
 import { LoggerModule } from "nestjs-pino"
-import { SentryGlobalFilter, SentryModule } from "@sentry/nestjs/setup"
+import { SentryGlobalFilter } from "@sentry/nestjs/setup"
 
 import { AppController } from "./app.controller"
 import { AppService } from "./app.service"
@@ -12,7 +12,6 @@ import path from "node:path"
 
 @Module({
   imports: [
-    SentryModule.forRoot(),
     LoggerModule.forRoot({
       pinoHttp: {
         name: "template-api",
@@ -21,12 +20,11 @@ import path from "node:path"
           targets: [
             {
               target: "pino-pretty",
-              options: { colorize: true },
+              options: { colorize: true, singleLine: true },
               level: "debug",
             },
             {
               target: path.resolve(__dirname, "logger/sentry-transport"),
-              level: "error",
             },
           ],
         },
