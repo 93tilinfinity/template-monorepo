@@ -1,10 +1,10 @@
-# 🚀 Startup boilerplate
+# 🚀 Fullstack monorepo boilerplate with CI/CD
 
-A monorepo boilerplate using Turborepo, designed to help you ship full-stack applications fast.
+A NestJS API, a Next.js frontend, and a suite of shared packages in a Turborepo monorepo.
 
-Includes a NestJS API, a Next.js frontend, and a suite of shared packages for scalable development.
+## Apps and Packages
 
-### Apps and Packages
+#### Structure
 
     .
     ├── apps
@@ -16,73 +16,85 @@ Includes a NestJS API, a Next.js frontend, and a suite of shared packages for sc
         ├── typescript-config           # `tsconfig.json`s used throughout the monorepo
         └── frontend                    # Shareable stub React component library.
 
-### Features
+#### Development Tooling
 
-#### Common setup
+- ✅ Linting/formatting config with [Biome](https://biomejs.dev/)
+- ✅ Monorepo workspace configurations using pnpm/Turborepo
 
-- Monorepo using Turborepo
-- Testing with [Jest](https://jestjs.io/) & [Playwright](https://playwright.dev/)
-- Code linting/formatting with [Biome](https://biomejs.dev/)
-- Sentry logging integration (toggle via .env)
+#### Shared Packages
 
-#### API
+- ✅ Common utility libraries (ts config, ui, test config, logger)
+- ✅ Shared type definitions
 
-- Built with NestJS
-- Deployed with Docker, GitHub Actions, and Azure Container Apps
-- PostgreSQL database with Drizzle ORM (coming soon)
-- API documentation via OpenAPI and Swagger (coming soon)
+#### App Deployment
 
-### Useful Commands
+- ✅ CICD pipeline
+- ✅ API deployment with Docker, GitHub Actions, and Azure Container Apps
+- ✅ frontend deployment with Vercel
+- Environment management templates (✅ backend, ❌ frontend)
 
-#### Install dependencies
+#### Quality Assurance
+
+- ✅ End-to-end testing framework with [Jest](https://jestjs.io/) & [Playwright](https://playwright.dev/)
+- ❌ Performance testing suite
+
+#### Observability
+
+- Logger using Pino and Sentry (✅ backend, ❌ frontend)
+
+#### Security
+
+- ❌ Secret management strategy
+- ❌ Dependency vulnerability scanning
+
+#### Data Management
+
+- ❌ PostgreSQL database with Drizzle ORM
+- ❌ Seed data for development
+- ❌ Database migration scripts
+
+#### Developer Experience
+
+- ✅ Local development IDE config
+
+#### Release Management
+
+- ❌ Version control strategy
+- ❌ Feature flag infrastructure
+
+#### Documentation
+
+- ❌ Architecture diagrams
+- ❌ OpenAPI Spec
+
+## Useful Commands
 
 ```bash
 pnpm install
-```
 
-#### Build
-
-```bash
 # Will build all the app & packages with the supported `build` script.
 pnpm build
 
 # ℹ️ If you plan to only build apps individually,
 # Please make sure you've built the packages first.
-```
 
-#### Develop
-
-```bash
 # Will run the development server for all the app & packages with the supported `dev` script.
 pnpm dev
-```
 
-#### test
-
-```bash
 # Will launch a test suites for all the app & packages with the supported `test` script.
 pnpm test
 
 # You can launch e2e testes with `test:e2e`
+# See `@common/jest-config` to customise the behavior.
 pnpm test:e2e
 
-# See `@common/jest-config` to customize the behavior.
-```
-
-#### Lint & Format
-
-```bash
 # Will lint and format all the app & packages.
 # See `biome.jsonc` to customise the behavior.
 turbo format-lint
-```
 
-```bash
 # auto apply fixes
 turbo format-lint:fix
 ```
-
-### Useful tips
 
 #### pnpm collisions
 
@@ -92,7 +104,6 @@ turbo format-lint:fix
 
 # `pnpm install` does not progress
  [build 4/6] RUN pnpm --filter=api... install --frozen-lockfile
-
 
 # Solution
 
@@ -120,17 +131,15 @@ du -h -d 1 | sort -hr
 
 ```
 
-### Deployment
+## Deployment
 
-#### General principles
-
-- Keep as much configuration as code to minimise platform-specific dependencies (Vercel, GCP, GitHub).
+- Should keep as much configuration as code to minimise platform-specific dependencies (Vercel, GCP, GitHub).
 - Only deploy what has changed.
-- For every PR, run linting, formatting, and builds with mandatory status checks before merging.
-- On merge to main, build and push Docker images with versioned tags (not 'latest') to the container registry.
-- Try to roll forward with quick fixes rather than rollbacks when issues arise.
+- For every PR, should run linting, formatting, and builds with mandatory status checks before merging.
+- On merge to main, should build and push Docker images with versioned tags (not 'latest') to the container registry.
+- Should try to roll forward with quick fixes rather than rollbacks when issues arise.
 
-#### Pipeline
+### Pipeline
 
 1. Run all unit/integration tests
 2. Build + push + deploy API
@@ -162,11 +171,23 @@ API deployment using Google Cloud Run (apparently good for cost efficiency) need
 
 The github workflow should now be able to setup the container app and deploy on merge with main.
 
-### Todo
+(todo - frontend setup)
 
-#### CI/CD
+## Logging & Monitoring
 
-API deployment (a single 'production' environment)
+- Should be simple i.e. consuming apps should not need to configure much
+- Should include structured metadata (JSON-style), not just plain text (better for filtering/searching/parsing)
+- Should use log levels for clarity and control
+- Should be environment-aware
+- Should port easily to third party tools like Sentry
+- Should be testable/mocked in unit tests
+
+See individual app READMEs for information on implementation.
+
+
+## Todo
+
+#### API deployment (a single 'production' environment)
 
 - [x] fix pnpm issues / update pnpm / update node 23.10.0
 - [x] get Dockerfile to run
@@ -174,17 +195,15 @@ API deployment (a single 'production' environment)
 - [x] GAR -> google cloud run deploy
 - [x] add startup probe
 
-Frontend deployment
+#### Frontend deployment
 
 - [x] frontend to Vercel
 
-Cleanup
+#### Logging
 
-- [ ] why does github actions upload 3 containers?
-- [ ] ensure public traffic on deploy
-- [ ] add a custom domain
-- [ ] make api docker container as small as possible (currently ~747MB)
-- [ ] Add Vulnerability scanning on upload to Artifact store
+- [x] add pino logger w/ pinoHttp and pino pretty
+- [ ] unhandled exceptions / app errors to Sentry
+- [ ] logger.error to Sentry
 
 #### Other
 
@@ -192,12 +211,21 @@ Cleanup
 - [x] replace eslint and prettier with Biome
 - [x] run Biome in CI
 - [ ] setup a common sentry logger (toggle via .env)
+
 - [ ] connect frontend with api + auth
 - [ ] get tests working/cleanup jest config
 - [ ] add a database (PostgreSQL with Drizzle ORM)
 - [ ] auto API documentation via OpenAPI and Swagger
 
-### Useful Links
+#### Deployment Cleanup
+
+- [ ] why does github actions upload 3 containers?
+- [ ] ensure public traffic on deploy
+- [ ] add a custom domain
+- [ ] make api docker container as small as possible (currently ~747MB)
+- [ ] Add Vulnerability scanning on upload to Artifact store
+
+## Useful Links
 
 - https://github.com/google-github-actions/example-workflows/tree/main/workflows/create-cloud-deploy-release
 - https://cloud.google.com/blog/products/devops-sre/deploy-to-cloud-run-with-github-actions/
