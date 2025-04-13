@@ -1,8 +1,8 @@
 import "./instrument"
 
 import { NestFactory } from "@nestjs/core"
-import { AppModule } from "./app.module"
 import { Logger, LoggerErrorInterceptor } from "nestjs-pino"
+import { AppModule } from "./app.module"
 
 import fs from "node:fs"
 

@@ -1,8 +1,8 @@
-import build from "pino-abstract-transport"
-import * as Sentry from "@sentry/node"
 import { Transform } from "node:stream"
-import { LogEvent } from "./log-event"
+import * as Sentry from "@sentry/node"
+import build from "pino-abstract-transport"
 import { startSentryClient } from "src/instrument"
+import { LogEvent } from "./log-event"
 
 const pinoToSentryLevelMap: Record<number, Sentry.SeverityLevel> = {
   60: "fatal",
