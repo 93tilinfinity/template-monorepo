@@ -9,6 +9,7 @@ spec:
         autoscaling.knative.dev/maxScale: '5'
         autoscaling.knative.dev/target-utilization-percentage: '80'
     spec:
+      serviceAccountName: ${CLOUD_RUN_SA}
       containerConcurrency: 50
       containers:
         - image: ${IMAGE}
@@ -22,6 +23,14 @@ spec:
             httpGet:
               port: ${PORT}
               path: '/'
+          env:
+          - name: NODE_ENV
+            value: ${ENVIRONMENT}
+          - name: SENTRY_DSN
+            valueFrom:
+              secretKeyRef:
+                key: latest
+                name: SENTRY_DSN
       timeoutSeconds: 60
 
   traffic:

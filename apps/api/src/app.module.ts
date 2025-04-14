@@ -17,16 +17,21 @@ import path from "node:path"
         name: "template-api",
         autoLogging: false,
         transport: {
-          targets: [
-            {
-              target: "pino-pretty",
-              options: { colorize: true, singleLine: true },
-              level: "debug",
-            },
-            {
-              target: path.resolve(__dirname, "logger/sentry-transport"),
-            },
-          ],
+          targets:
+            // biome-ignore lint/complexity/useLiteralKeys: needed for process.env
+            process.env["NODE_ENV"] !== "production"
+              ? [
+                  {
+                    target: "pino-pretty",
+                    options: { colorize: true, singleLine: true },
+                    level: "debug",
+                  },
+                ]
+              : [
+                  {
+                    target: path.resolve(__dirname, "logger/sentry-transport"),
+                  },
+                ],
         },
       },
     }),
