@@ -186,11 +186,11 @@ See individual app READMEs for information on implementation.
 
 ## Todo
 
-- [ ] add Swagger/OpenAPI spec
 - [ ] add security (CORS, other auth) to API
 - [ ] add a database (PostgreSQL with Drizzle ORM)
-- [ ] create a github release with version number
+
 - [ ] add Sentry to frontend unhandled exceptions
+- [ ] create a github release with version number
 - [ ] GCP assets to terraform
 - [ ] Vercel assets to terraform
 
@@ -216,6 +216,7 @@ See individual app READMEs for information on implementation.
 
 #### Other
 
+- [x] add Swagger/OpenAPI spec
 - [x] Update TS config
 - [x] replace eslint and prettier with Biome
 - [x] run Biome in CI

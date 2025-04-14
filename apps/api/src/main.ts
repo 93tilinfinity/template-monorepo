@@ -30,7 +30,7 @@ async function bootstrap() {
     .addTag("api")
     .build()
   const documentFactory = () => SwaggerModule.createDocument(app, config)
-  SwaggerModule.setup("docs", app, documentFactory)
+  SwaggerModule.setup("docs", app, documentFactory, { jsonDocumentUrl: "docs/json" })
 
   // biome-ignore lint/complexity/useLiteralKeys: needed for process.env
   const portNumber = process.env["PORT"] ? Number(process.env["PORT"]) : 3000
