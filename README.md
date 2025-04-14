@@ -187,7 +187,6 @@ See individual app READMEs for information on implementation.
 
 ## Todo
 
-- [ ] run lint-format as a check on all pull requests
 - [ ] add a GCP secret vault for API
 - [ ] add Swagger/OpenAPI spec
 - [ ] vulnerability scanning on upload to Artifact store
@@ -227,6 +226,7 @@ See individual app READMEs for information on implementation.
 
 #### Deployment Cleanup
 
+- [x] run lint-format as a check on all pull requests
 - [ ] why does github actions upload 3 containers?
 - [ ] ensure public traffic on deploy
 - [ ] add a custom domain
