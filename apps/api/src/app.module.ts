@@ -1,12 +1,12 @@
 import { Module } from "@nestjs/common"
 import { ConfigModule } from "@nestjs/config"
-import { LinksModule } from "./links/links.module"
-import { LoggerModule } from "nestjs-pino"
 import { SentryGlobalFilter } from "@sentry/nestjs/setup"
+import { LoggerModule } from "nestjs-pino"
+import { LinksModule } from "./links/links.module"
 
+import { APP_FILTER } from "@nestjs/core"
 import { AppController } from "./app.controller"
 import { AppService } from "./app.service"
-import { APP_FILTER } from "@nestjs/core"
 
 import path from "node:path"
 

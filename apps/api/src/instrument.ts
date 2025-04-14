@@ -1,6 +1,6 @@
-import * as dotenv from "dotenv"
+import { isMainThread, threadId } from "node:worker_threads"
 import * as Sentry from "@sentry/nestjs"
-import { threadId, isMainThread } from "node:worker_threads"
+import * as dotenv from "dotenv"
 
 // Note this is not a Nest way to load env vars and
 // the rest of the app will use the Config Module.

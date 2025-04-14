@@ -187,6 +187,18 @@ See individual app READMEs for information on implementation.
 
 ## Todo
 
+- [ ] add a GCP secret vault for API
+- [ ] add Swagger/OpenAPI spec
+- [ ] vulnerability scanning on upload to Artifact store
+
+- [ ] add security (CORS, other auth) to API
+- [ ] add Sentry to frontend unhandled exceptions
+
+- [ ] create a github release with version number
+- [ ] add a database (PostgreSQL with Drizzle ORM)
+- [ ] GCP assets to terraform
+- [ ] Vercel assets to terraform
+
 #### API deployment (a single 'production' environment)
 
 - [x] fix pnpm issues / update pnpm / update node 23.10.0
@@ -202,28 +214,23 @@ See individual app READMEs for information on implementation.
 #### Logging
 
 - [x] add pino logger w/ pinoHttp and pino pretty
-- [ ] unhandled exceptions / app errors to Sentry
-- [ ] logger.error to Sentry
+- [x] unhandled exceptions / app errors to Sentry
+- [x] unhandled exceptions / logger.error to Sentry
 
 #### Other
 
 - [x] Update TS config
 - [x] replace eslint and prettier with Biome
 - [x] run Biome in CI
-- [ ] setup a common sentry logger (toggle via .env)
-
-- [ ] connect frontend with api + auth
-- [ ] get tests working/cleanup jest config
-- [ ] add a database (PostgreSQL with Drizzle ORM)
-- [ ] auto API documentation via OpenAPI and Swagger
+- [x] setup a common sentry logger (toggle via .env)
 
 #### Deployment Cleanup
 
+- [x] run lint-format as a check on all pull requests
 - [ ] why does github actions upload 3 containers?
 - [ ] ensure public traffic on deploy
 - [ ] add a custom domain
 - [ ] make api docker container as small as possible (currently ~747MB)
-- [ ] Add Vulnerability scanning on upload to Artifact store
 
 ## Useful Links
 
