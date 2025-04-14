@@ -44,28 +44,25 @@ A NestJS API, a Next.js frontend, and a suite of shared packages in a Turborepo 
 
 #### Security
 
-- ❌ Secret management strategy
-- ❌ Dependency vulnerability scanning
+- Secret management strategy  (✅ backend, ❌ frontend)
+- Dependency vulnerability scanning (✅ backend, ❌ frontend)
 
 #### Data Management
 
 - ❌ PostgreSQL database with Drizzle ORM
-- ❌ Seed data for development
 - ❌ Database migration scripts
 
 #### Developer Experience
 
 - ✅ Local development IDE config
+- ✅ OpenAPI Spec
+- ❌ Architecture diagrams
 
 #### Release Management
 
 - ❌ Version control strategy
 - ❌ Feature flag infrastructure
 
-#### Documentation
-
-- ❌ Architecture diagrams
-- ❌ OpenAPI Spec
 
 ## Useful Commands
 
@@ -189,14 +186,11 @@ See individual app READMEs for information on implementation.
 
 ## Todo
 
-- [ ] vulnerability scanning on upload to Artifact store
-- [ ] add Swagger/OpenAPI spec
-
 - [ ] add security (CORS, other auth) to API
-- [ ] add Sentry to frontend unhandled exceptions
-
-- [ ] create a github release with version number
 - [ ] add a database (PostgreSQL with Drizzle ORM)
+
+- [ ] add Sentry to frontend unhandled exceptions
+- [ ] create a github release with version number
 - [ ] GCP assets to terraform
 - [ ] Vercel assets to terraform
 
@@ -206,6 +200,7 @@ See individual app READMEs for information on implementation.
 - [x] get Dockerfile to run
 - [x] add a GCP secret vault for API
 - [x] docker container to Google Artifact Registry
+- [x] add auto vulnerability scanning on upload to container registry
 - [x] GAR -> google cloud run deploy
 - [x] add startup probe
 
@@ -221,6 +216,7 @@ See individual app READMEs for information on implementation.
 
 #### Other
 
+- [x] add Swagger/OpenAPI spec
 - [x] Update TS config
 - [x] replace eslint and prettier with Biome
 - [x] run Biome in CI
@@ -239,3 +235,7 @@ See individual app READMEs for information on implementation.
 - https://github.com/google-github-actions/example-workflows/tree/main/workflows/create-cloud-deploy-release
 - https://cloud.google.com/blog/products/devops-sre/deploy-to-cloud-run-with-github-actions/
 - https://knative.dev/docs/serving/services/configure-probing/#configuring-custom-probes
+- https://cloud.google.com/sdk/gcloud/reference/run/services/replace (container deployment flags)
+- https://cloud.google.com/kubernetes-engine/enterprise/knative-serving/docs/configuring/environment-variables (setting api env vars)
+- https://github.com/pinojs/pino (prod) / https://github.com/pinojs/pino-pretty (dev)
+- https://docs.nestjs.com/openapi/introduction (openAPI spec)

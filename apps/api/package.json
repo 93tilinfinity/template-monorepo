@@ -28,6 +28,7 @@
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^11.1.3",
     "@sentry/cli": "^2.43.0",
     "@sentry/nestjs": "^9.12.0",
     "@sentry/node": "^9.12.0",
