@@ -166,6 +166,7 @@ API deployment using Google Cloud Run (apparently good for cost efficiency) need
    2. grant `Artifact reader/writer`
    3. grant `Cloud Run Admin` (cloud run)
    4. grant `Service Account User` (cloud run)
+   5. grant `roles/secretmanager.secretAccessor` (secrets manager)
 6. Enable `Compute Engine API`
 7. **Add `Workload Identity Provider` and `Service Account` email to GitHub repository secrets as `GCP_WORKLOAD_IDENTITY_PROVIDER` and `GCP_SERVICE_ACCOUNT` respectively.**
 

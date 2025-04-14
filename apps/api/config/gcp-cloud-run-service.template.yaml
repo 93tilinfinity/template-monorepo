@@ -22,6 +22,12 @@ spec:
             httpGet:
               port: ${PORT}
               path: '/'
+          env:
+          - name: SENTRY_DSN
+            valueFrom:
+              secretKeyRef:
+                # key: VERSION
+                name: projects/675933940278/secrets/SENTRY_DSN
       timeoutSeconds: 60
 
   traffic:
