@@ -24,6 +24,8 @@ spec:
               port: ${PORT}
               path: '/'
           env:
+          - name: NODE_ENV
+            value: ${ENVIRONMENT}
           - name: SENTRY_DSN
             valueFrom:
               secretKeyRef:
