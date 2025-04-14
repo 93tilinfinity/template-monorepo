@@ -169,6 +169,7 @@ API deployment using Google Cloud Run (apparently good for cost efficiency) need
    5. grant `roles/secretmanager.secretAccessor` (secrets manager)
 6. Enable `Compute Engine API`
 7. **Add `Workload Identity Provider` and `Service Account` email to GitHub repository secrets as `GCP_WORKLOAD_IDENTITY_PROVIDER` and `GCP_SERVICE_ACCOUNT` respectively.**
+8. Enable Google Secret Manager API + upload API secrets (accessing `latest` version)
 
 The github workflow should now be able to setup the container app and deploy on merge with main.
 
@@ -188,9 +189,8 @@ See individual app READMEs for information on implementation.
 
 ## Todo
 
-- [ ] add a GCP secret vault for API
-- [ ] add Swagger/OpenAPI spec
 - [ ] vulnerability scanning on upload to Artifact store
+- [ ] add Swagger/OpenAPI spec
 
 - [ ] add security (CORS, other auth) to API
 - [ ] add Sentry to frontend unhandled exceptions
@@ -204,6 +204,7 @@ See individual app READMEs for information on implementation.
 
 - [x] fix pnpm issues / update pnpm / update node 23.10.0
 - [x] get Dockerfile to run
+- [x] add a GCP secret vault for API
 - [x] docker container to Google Artifact Registry
 - [x] GAR -> google cloud run deploy
 - [x] add startup probe
