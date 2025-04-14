@@ -117,7 +117,7 @@ jobs:
           region: ${{ env.REGION }}
           metadata: container-production.yaml
           flags: |
-            --service-account=${{ secrets.GCP_SERVICE_ACCOUNT }}
+            --account=${{ secrets.GCP_SERVICE_ACCOUNT }}
 
   deploy-frontend:
     needs: deploy-api
