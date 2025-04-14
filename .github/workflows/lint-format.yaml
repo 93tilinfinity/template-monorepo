@@ -1,7 +1,7 @@
 name: lint-and-format
 
 on:
-  pull:
+  pull_request:
 
 jobs:
   format-and-lint:
