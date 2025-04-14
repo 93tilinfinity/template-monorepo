@@ -18,6 +18,7 @@ import path from "node:path"
         autoLogging: false,
         transport: {
           targets:
+            // biome-ignore lint/complexity/useLiteralKeys: needed for process.env
             process.env["NODE_ENV"] !== "production"
               ? [
                   {
