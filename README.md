@@ -186,13 +186,19 @@ See individual app READMEs for information on implementation.
 
 ## Todo
 
-- [ ] add security (CORS, other auth) to API
+- [ ] add github sha as version number to env vars and github release
 - [ ] add a database (PostgreSQL with Drizzle ORM)
 
 - [ ] add Sentry to frontend unhandled exceptions
-- [ ] create a github release with version number
 - [ ] GCP assets to terraform
 - [ ] Vercel assets to terraform
+
+#### API security 
+
+- [ ] add csrf-csrf
+- [ ] helmet to sett HTTP headers appropriately
+- [ ] add auth module for user endpoints
+- [x] add CORS and rate throttling
 
 #### API deployment (a single 'production' environment)
 

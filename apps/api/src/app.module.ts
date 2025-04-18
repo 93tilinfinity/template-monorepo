@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common"
 import { ConfigModule } from "@nestjs/config"
+import { ThrottlerModule } from "@nestjs/throttler"
 import { SentryGlobalFilter } from "@sentry/nestjs/setup"
 import { LoggerModule } from "nestjs-pino"
 import { LinksModule } from "./links/links.module"
@@ -36,6 +37,25 @@ import path from "node:path"
       },
     }),
     ConfigModule.forRoot({ isGlobal: true }),
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          name: "short",
+          ttl: 1000,
+          limit: 3,
+        },
+        {
+          name: "medium",
+          ttl: 10000,
+          limit: 20,
+        },
+        {
+          name: "long",
+          ttl: 60000,
+          limit: 100,
+        },
+      ],
+    }),
     LinksModule,
   ],
   controllers: [AppController],
