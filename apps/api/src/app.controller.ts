@@ -1,7 +1,7 @@
 import { Controller, Get } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
-import { AppService } from "./app.service"
 import { Throttle } from "@nestjs/throttler"
+import { AppService } from "./app.service"
 
 @Controller()
 export class AppController {
