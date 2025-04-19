@@ -1,11 +1,11 @@
 import "./instrument"
 
+import fs from "node:fs"
 import { NestFactory } from "@nestjs/core"
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger"
+import helmet from "helmet"
 import { Logger, LoggerErrorInterceptor } from "nestjs-pino"
 import { AppModule } from "./app.module"
-import helmet from "helmet"
-import fs from "node:fs"
 
 async function bootstrap() {
   // biome-ignore lint/complexity/useLiteralKeys: needed for process.env

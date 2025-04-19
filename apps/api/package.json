@@ -9,9 +9,7 @@
     "directory": "dist",
     "linkDirectory": true
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "nest build",
     "dev": "nest start --watch",
