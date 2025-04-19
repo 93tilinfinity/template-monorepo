@@ -4,7 +4,7 @@ import { NestFactory } from "@nestjs/core"
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger"
 import { Logger, LoggerErrorInterceptor } from "nestjs-pino"
 import { AppModule } from "./app.module"
-
+import helmet from "helmet"
 import fs from "node:fs"
 
 async function bootstrap() {
@@ -22,6 +22,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true })
   app.useLogger(app.get(Logger))
   app.useGlobalInterceptors(new LoggerErrorInterceptor()) // expose stack trace and error class in err property
+
+  app.use(helmet())
 
   const allowListCors = [
     // prod

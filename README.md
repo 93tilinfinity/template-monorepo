@@ -186,7 +186,6 @@ See individual app READMEs for information on implementation.
 
 ## Todo
 
-- [ ] add github sha as version number to env vars and github release
 - [ ] add a database (PostgreSQL with Drizzle ORM)
 
 - [ ] add Sentry to frontend unhandled exceptions
@@ -195,8 +194,8 @@ See individual app READMEs for information on implementation.
 
 #### API security 
 
-- [ ] add csrf-csrf
 - [ ] helmet to set HTTP headers appropriately
+- [ ] add csrf-csrf
 - [ ] add auth module for user endpoints
 - [x] add CORS and rate throttling
 
@@ -231,6 +230,7 @@ See individual app READMEs for information on implementation.
 #### Deployment Cleanup
 
 - [x] run lint-format as a check on all pull requests
+- [x] add github sha as version number to env vars and github release
 - [ ] why does github actions upload 3 containers?
 - [ ] ensure public traffic on deploy
 - [ ] add a custom domain
