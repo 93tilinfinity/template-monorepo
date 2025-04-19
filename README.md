@@ -188,6 +188,7 @@ See individual app READMEs for information on implementation.
 
 - [ ] add a database (PostgreSQL with Drizzle ORM)
 - [ ] add Sentry to frontend unhandled exceptions
+- [ ] run lint/format as a commit hook
 
 #### API security 
 
