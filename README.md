@@ -60,7 +60,7 @@ A NestJS API, a Next.js frontend, and a suite of shared packages in a Turborepo 
 
 #### Release Management
 
-- ❌ Version control strategy
+- ✅ Version control strategy
 - ❌ Feature flag infrastructure
 
 
@@ -186,13 +186,16 @@ See individual app READMEs for information on implementation.
 
 ## Todo
 
-- [ ] add security (CORS, other auth) to API
 - [ ] add a database (PostgreSQL with Drizzle ORM)
-
 - [ ] add Sentry to frontend unhandled exceptions
-- [ ] create a github release with version number
-- [ ] GCP assets to terraform
-- [ ] Vercel assets to terraform
+- [ ] run lint/format as a commit hook
+
+#### API security 
+
+- [ ] add csrf-csrf
+- [ ] add auth module for user endpoints
+- [x] add CORS and rate throttling
+- [x] helmet to set HTTP headers appropriately
 
 #### API deployment (a single 'production' environment)
 
@@ -224,11 +227,14 @@ See individual app READMEs for information on implementation.
 
 #### Deployment Cleanup
 
-- [x] run lint-format as a check on all pull requests
 - [ ] why does github actions upload 3 containers?
-- [ ] ensure public traffic on deploy
-- [ ] add a custom domain
+- [ ] add a custom domain support
 - [ ] make api docker container as small as possible (currently ~747MB)
+- [ ] ensure public traffic on api deploy
+- [ ] Terraform for all cloud assets (front and back)
+
+- [x] add github sha as version number to env vars and github release
+- [x] run lint-format as a check on all pull requests
 
 ## Useful Links
 

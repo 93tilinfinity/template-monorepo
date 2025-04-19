@@ -1,11 +1,11 @@
 import "./instrument"
 
+import fs from "node:fs"
 import { NestFactory } from "@nestjs/core"
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger"
+import helmet from "helmet"
 import { Logger, LoggerErrorInterceptor } from "nestjs-pino"
 import { AppModule } from "./app.module"
-
-import fs from "node:fs"
 
 async function bootstrap() {
   // biome-ignore lint/complexity/useLiteralKeys: needed for process.env
@@ -22,6 +22,21 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true })
   app.useLogger(app.get(Logger))
   app.useGlobalInterceptors(new LoggerErrorInterceptor()) // expose stack trace and error class in err property
+
+  app.use(helmet())
+
+  const allowListCors = [
+    // prod
+    "https://template-monorepo-frontend.vercel.app/",
+
+    // preview
+    /^https:\/\/(template-monorepo-frontend)-[0-9a-z-]+-93tilinfinity\.vercel\.app$/,
+  ]
+  // biome-ignore lint/complexity/useLiteralKeys: needed for process.env
+  if (process.env["NODE_ENV"] !== "production") {
+    allowListCors.push("http://localhost:3040")
+  }
+  app.enableCors({ origin: allowListCors })
 
   const config = new DocumentBuilder()
     .setTitle("Template API")
