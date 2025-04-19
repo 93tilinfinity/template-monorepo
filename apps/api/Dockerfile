@@ -46,6 +46,10 @@ COPY --from=build /usr/app ./
 
 USER node
 EXPOSE 3000
-ENV NODE_ENV=production
+
+ARG SHA="local"
+
+ENV GITHUB_SHA=$SHA
+ENV NODE_ENV="production"
 
 CMD ["node", "/app/apps/api/dist/main.js"]

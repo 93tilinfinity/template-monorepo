@@ -196,7 +196,7 @@ See individual app READMEs for information on implementation.
 #### API security 
 
 - [ ] add csrf-csrf
-- [ ] helmet to sett HTTP headers appropriately
+- [ ] helmet to set HTTP headers appropriately
 - [ ] add auth module for user endpoints
 - [x] add CORS and rate throttling
 
